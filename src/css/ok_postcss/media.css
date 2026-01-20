@@ -1,0 +1,140 @@
+/* ----------------- */
+/* --- media.css --- */
+/* ----------------- */
+
+/* 1 - 649 */
+
+@media (max-width: 649px) {
+  .game-box {
+    padding: 14px 0;
+    width: 500px;
+  }
+
+  .game-box-left {
+    padding: 0 0 0 20px;
+    width: 125px;
+  }
+
+  .game-box-right{
+    flex-direction: row;
+
+    padding: 5px 0 0 0;
+    width: 100%;
+    height: auto;
+  }
+
+  /* .game-box-right-wrap {
+    width: 100%;
+  } */
+
+  .game-box-right-wrap:nth-child(1),
+  .game-box-right-wrap:nth-child(2),
+  .game-box-right-wrap:nth-child(3) {
+    height: 100px;
+  }
+
+  .game-box-right-wrap:nth-child(1) {
+    justify-content: flex-end;
+    width: calc(30%);
+  }
+
+  .game-box-right-wrap:nth-child(2) {
+    padding: 0 5px;
+    width: calc(40%);
+  }
+
+  .game-box-right-wrap:nth-child(3) {
+    width: calc(30%);
+  }
+
+  .span-message {
+    text-align: center;
+  }
+
+  .btn-game {
+    padding: 5px 10px;
+  }
+
+  .btn-game:nth-child(1) {
+    margin-bottom: 15px;
+  }
+}
+
+/* 1 - 499 */
+
+@media (max-width: 499px) {
+  .container {
+    align-items: center;
+    padding: 0;
+  }
+
+  .game-box {
+    width: 310px;
+  }
+
+  .game-box-left {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 5px 10px 5px;
+    width: 100%;
+    height: auto;
+  }
+
+  .game-box-left-wrap {
+    padding: 0;
+    height: auto;
+  }
+
+  .game-box-left-wrap:nth-child(2) {
+    padding: 0 5px 0 0;
+    width: 60px;
+  }
+
+  .game-box-left-wrap:nth-child(3) {
+    padding: 0;
+  }
+
+  .game-box-middle {
+    padding: 0 10px;
+    height: 394px;
+  }
+
+  .middle-middle {
+    height: 188px;
+  }
+
+  /* img */
+
+  .middle-top,
+  .middle-bottom {
+    height: auto;
+  }
+
+  .wrap-card-field {
+    width: 64px;
+    height: 90px;
+  }
+
+  /* --- */
+
+  .game-box-right {
+    padding: 10px 0 0 0;
+  }
+
+  .game-box-right-wrap:nth-child(1),
+  .game-box-right-wrap:nth-child(3) {
+    width: calc(20%);
+  }
+
+  .game-box-right-wrap:nth-child(2) {
+    width: calc(60%);
+  }
+
+  .btn-span {
+    display: none;
+  }
+
+  .btn-svg {
+    display: inline;
+  }
+}

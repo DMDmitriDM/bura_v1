@@ -1,0 +1,263 @@
+
+/* field-game.css */
+
+.game-box {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border: 5px solid gray;
+  border-radius: 5px;
+  padding: 14px 0 14px 20px;
+  width: 650px;
+  background-color: rgb(6, 138, 6);
+}
+
+.blind {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(231, 205, 134, 0.7);
+  transform: scale(1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.blind-hide {
+  transform: scale(0);
+}
+
+.blind-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  border: 5px solid gray;
+  border-radius: 5px;
+  padding: 20px 15px;
+  width: 200px;
+
+  background-color: rgb(231, 178, 113);
+}
+
+.blind-info {
+  margin-bottom: 20px;
+}
+
+/* --- */
+
+.game-box-left,
+.game-box-middle,
+.game-box-right {
+  height: 442px;
+}
+
+/* --- */
+/* --- */
+/* --- */
+
+.game-box-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 110px;
+}
+
+.game-box-left-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 10px 0;
+  width: 100%;
+  height: calc(100% / 4);
+}
+
+.game-box-left-wrap:nth-child(2),
+.game-box-left-wrap:nth-child(3) {
+  padding: 20px 0 0 0;
+}
+
+.game-box-left-wrap:nth-child(4) {
+  justify-content: flex-end;
+}
+
+.title-play-a {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.title-play-b {
+  margin: 0;
+  margin-top: 10px;
+}
+
+.wrap-ruff-img {
+  padding: 10px 10px;
+  width: 48px;
+  height: 48px;
+}
+
+/* --- */
+/* --- */
+/* --- */
+
+.game-box-middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 300px;
+}
+
+.middle-top,
+.middle-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  height: 94px;
+}
+
+.middle-middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  height: 200px;
+}
+
+/* cards */
+
+.wrap-card-field {
+  border: 2px solid transparent;
+  border-radius: 4px;
+  width: 68px;
+  height: 94px;
+  overflow: hidden;
+}
+
+.wrap-card-field-check {
+  border-color: red;
+}
+
+/* --- */
+/* --- */
+/* --- */
+
+.game-box-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px 15px 10px 15px;
+  width: 210px;
+}
+
+.game-box-right-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+}
+
+.game-box-right-wrap:nth-child(1) {
+  justify-content: flex-start;
+  height: 100px;
+}
+
+.game-box-right-wrap:nth-child(2) {
+  justify-content: center;
+  height: 200px;
+}
+
+.game-box-right-wrap:nth-child(3) {
+  justify-content: flex-end;
+  height: 100px;
+}
+
+/* message */
+
+.span-message {
+  max-width: 100%;
+}
+
+.span-message:nth-child(1) {
+  margin-bottom: 10px;
+}
+
+.span-message-hide {
+  transform: scaleY(0);
+  /* display: none; */
+}
+
+/* btn */
+
+.btn-game {
+  border: 2px solid rgb(128, 120, 120);
+  border-radius: 5px;
+  padding: 5px 20px 5px 20px;
+  background-color: rgb(240, 213, 181);
+  user-select: none;
+  outline: none;
+  transition: border-color 0.3s ease-in-out, color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.btn-game:nth-child(1) {
+  margin-bottom: 10px;
+}
+
+.btn-game:focus-visible {
+  outline: none;
+  border-color: rgb(209, 111, 111);
+}
+
+@media (hover: hover) {
+  .btn-game:hover {
+    background-color: rgb(231, 193, 146);
+    border-color: rgb(110, 104, 104);
+  }
+}
+
+.btn-game:active {
+  background-color: rgb(221, 174, 116);
+  border-color: rgb(110, 104, 104);
+}
+
+.btn-game:disabled {
+  color: rgb(161, 154, 154);
+  background-color: rgb(219, 206, 191);
+  border-color: rgb(201, 191, 191);
+  cursor: default;
+}
+
+/* .btn-span {
+  display: none;
+} */
+
+.btn-svg {
+  display: none;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+.btn-svg path {
+  fill: rgb(10, 10, 10);
+  transition: fill 0.3s ease-in-out;
+}
+
+.btn-game:disabled .btn-svg path {
+  fill: rgb(161, 154, 154);
+}
