@@ -67,10 +67,24 @@ export function btnsClick() {
 
   // ------------------------------------------------------------ //
 
-  // Закрыть окно с уведомлением кто ходит первым
-  btnBlind.addEventListener('click', () => {
-    blind.classList.add('blind-hide');
-  });
+  // Окно с уведомлением кто ходит первым
+  async function makeBlind() {
+    blind.classList.remove('blind-hide');
+
+    await new Promise((resolve) => {
+      btnBlind.addEventListener('click', () => {
+        blind.addEventListener(
+          'transitionend',
+          () => {
+            resolve();
+          },
+          { once: true },
+        );
+
+        blind.classList.add('blind-hide');
+      });
+    });
+  }
 
   // Начать цикл из партий
   btnGame.addEventListener('click', () => {
@@ -82,16 +96,26 @@ export function btnsClick() {
       firstGame = false;
     } else {
       // Всё очищать
-      clearAllImgABRI();
-      cards.cleareArrPartyCardsAB();
       countBribeA = 0;
       countBribeB = 0;
       countBeardA = 0;
       countBeardB = 0;
 
-      // Цикл партий - первая партия
-      firstParty = true;
+      bribeA.textContent = '0';
+      bribeB.textContent = '0';
+      beardA.textContent = '0';
+      beardB.textContent = '0';
+      pointsA.textContent = '0';
+      pointsB.textContent = '0';
+
+      countCards.textContent = '36';
+
+      info2.textContent = '';
+      info2.classList.add('span-message-hide');
     }
+
+    // Цикл партий - первая партия
+    firstParty = true;
 
     info1.textContent = 'Сдать карты!';
   });
@@ -99,22 +123,12 @@ export function btnsClick() {
   // ------------------------------------------------------------ //
 
   // Сдача карт для партии
-  btnRotate.addEventListener('click', () => {
+  btnRotate.addEventListener('click', async () => {
     btnRotate.setAttribute('disabled', '');
 
-    // Если первая партия то определяем кто первым ходит
-    if (firstParty) {
-      // Начинает игрок:
-      cards.playerIsMove = cards.getPlayerIsRotate();
-
-      infoBlind.textContent = `Жребий выпал на ход игроку ${cards.playerIsMove}`;
-      blind.classList.remove('blind-hide');
-
-      firstParty = false;
-    } else {
-      // Не первая
-      // Очищаем массивы взятых карт и инфу
-      cards.cleareArrPartyCardsAB();
+    // Если не первая партия
+    if (!firstParty) {
+      // Очищаем инфу кроме бороды
       countBribeA = 0;
       countBribeB = 0;
       bribeA.textContent = '0';
@@ -122,17 +136,34 @@ export function btnsClick() {
       pointsA.textContent = '0';
       pointsB.textContent = '0';
 
-      // Может измениться в executeBura
       info2.textContent = '';
       info2.classList.add('span-message-hide');
     }
 
+    cards.cleareArrPartyCardsAB();
     cards.getCardDeck();
     cards.refuelArrHandsCard();
 
+    refreshHands();
+
     countCards.textContent = String(cards.countArrCardDeck);
     imgRuff.src = objImgRuff[`ruff${cards.kozir}`];
-    info1.textContent = 'Ваш ход!';
+
+    info1.textContent = 'Карты розданы!';
+
+    // Если первая партия то определяем кто первым ходит
+    if (firstParty) {
+      // Начинает игрок:
+      cards.playerIsMove = cards.getPlayerIsRotate();
+
+      // for test
+      // cards.playerIsMove = 'A';
+
+      infoBlind.textContent = `Жребий выпал на ход игроку ${cards.playerIsMove}`;
+      await makeBlind();
+
+      firstParty = false;
+    }
 
     // Здесь проверка на буру, смена playerIsMove и вывод инфы
     executeBura();
@@ -140,10 +171,12 @@ export function btnsClick() {
     // Ход за игроком А до В
     if (cards.playerIsMove === 'A') {
       cards.playPlayerAFirst();
+
+      refreshHands();
+      refreshFields();
     }
 
-    refreshHands();
-    refreshFields();
+    info1.textContent = 'Ваш ход!';
 
     btnStep.removeAttribute('disabled');
   });
@@ -216,12 +249,15 @@ export function btnsClick() {
       beardA.textContent = String(countBeardA);
       beardB.textContent = String(countBeardB);
 
+      // Убираем козырь
+      imgRuff.src = objimgOther.otherAr;
+
       info2.textContent = `Партия за игроком: ${cards.playerIsMove}`;
       info2.classList.remove('span-message-hide');
 
-      // Борода 12
-      if (countBeardA === 12 || countBeardB === 12) {
-        if (countBeardA === 12) {
+      // Борода 6
+      if (countBeardA === 6 || countBeardB === 6) {
+        if (countBeardA === 6) {
           info1.textContent = 'Игрок А козлик!';
         } else {
           info1.textContent = 'Игрок В козлик!';
@@ -244,7 +280,7 @@ export function btnsClick() {
   // ------------------------------------------------------------ //
 
   // Ваш ход
-  // Если был ход за игроком А, то он уже "сходил" в при сдаче карт или по кнопке "OK"
+  // Если был ход за игроком А, то он уже "сходил" при сдаче карт или по кнопке "OK"
   btnStep.addEventListener('click', () => {
     // Очищаем
     info2.textContent = '';
@@ -267,7 +303,7 @@ export function btnsClick() {
       return;
     }
 
-    // Ход за игроком А и кол-во карт не равно
+    // Ход был за игроком А и кол-во карт не равно
     if (
       cards.playerIsMove === 'A' &&
       cards.arrFieldsCardB.length !== cards.arrFieldsCardA.length
@@ -324,6 +360,7 @@ export function btnsClick() {
   });
 
   // ------------------------------------------------------------ //
+
   // Клик по карте игроком В
   for (let i = 0; i < 4; i++) {
     arrElBoxHandsB[i].addEventListener('click', () => {
@@ -354,33 +391,6 @@ export function btnsClick() {
   // ------------------------------------------------------------ //
   // ------------------------------------------------------------ //
   // ------------------------------------------------------------ //
-
-  function clearAllImgABRI() {
-    for (let i = 0; i < 4; i++) {
-      arrElImgHandsA[i].src = objimgOther.otherAf;
-      arrElImgFieldA[i].src = objimgOther.otherAf;
-      arrElImgFieldB[i].src = objimgOther.otherAf;
-      arrElImgHandsB[i].src = objimgOther.otherAf;
-      arrElBoxHandsB[i].classList.remove('wrap-card-field-check');
-    }
-
-    bribeA.textContent = '0';
-    beardA.textContent = '0';
-    pointsA.textContent = '0';
-
-    imgRuff.src = objimgOther.otherAr;
-    countCards.textContent = '36';
-
-    bribeB.textContent = '0';
-    beardB.textContent = '0';
-    pointsB.textContent = '0';
-
-    info1.textContent = 'Начать игру!';
-    info2.textContent = 'Начать игру!';
-    info2.classList.add('span-message-hide');
-  }
-
-  // ---
 
   function refreshHands() {
     for (let i = 0; i < 4; i++) {
@@ -429,6 +439,9 @@ export function btnsClick() {
     // ---
     // console.log('playABura: ', playABura);
     // console.log('playBBura: ', playBBura);
+
+    // for test
+    // const playABura = true;
 
     if (playABura && playBBura) {
       info2.textContent = `Бура! Ход за ироком ${cards.playerIsMove} не изменился`;
